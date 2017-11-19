@@ -1,4 +1,5 @@
 ﻿using Assets.Utility;
+using Game;
 using Networking.Data;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -26,6 +27,7 @@ namespace Networking
         {
             InitializeSocket();
             Time.fixedDeltaTime = 1f / 30f;
+            Connect();
         }
 
         private void FixedUpdate ()
@@ -128,6 +130,7 @@ namespace Networking
 
         public void SendPacket<T>(T packet, Packets packetType) where T : class
         {
+            if (!Connected) return;
             Envelope envelope = new Envelope
             {
                 PacketType = packetType,
@@ -136,23 +139,6 @@ namespace Networking
             byte error;
             byte[] message = SerializationHandler.Serialize(envelope, _bufferSize);
             NetworkTransport.Send(_socketID, ClientID, _channelID, message, _bufferSize, out error);
-
-//            MessageReader.ReadMessage(message);
-        }
-
-        public void SendJSONMessage(PlayerUpdate message)
-        {
-            Debug.Log(string.Format("Event: Send message, Message: {0}", message));
-
-            SendPacket(message, Packets.PlayerUpdate);
-        }
-
-        public void SendSocketMessage()
-        {
-            PlayerUpdate update = new PlayerUpdate
-            {
-            };
-            SendJSONMessage(update);
         }
     }
 }
