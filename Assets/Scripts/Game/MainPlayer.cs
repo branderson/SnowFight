@@ -63,6 +63,7 @@ namespace Game
 
                 _facing = newFacing;
                 Face(_facing);
+                Move(move.sqrMagnitude / Time.deltaTime);
 
                 UpdateServer(move, false);
             }

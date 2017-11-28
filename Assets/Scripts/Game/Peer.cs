@@ -30,6 +30,7 @@ namespace Game
 
         public override void UpdateFromServer(PlayerSync sync)
         {
+            Move((transform.position - new Vector3(sync.PosX, sync.PosY)).sqrMagnitude / Time.deltaTime);
             transform.position = new Vector2(sync.PosX, sync.PosY);
             _team = sync.Team;
             Face(sync.Facing);

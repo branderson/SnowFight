@@ -40,7 +40,7 @@ namespace Game
             if (userID == ConnectionManager.Instance.UserID)
             {
                 player = playerObject.AddComponent<MainPlayer>();
-                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<DampedFollow>().Follow = playerObject;
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Follow>().Target = playerObject.transform;
             }
             else
             {
