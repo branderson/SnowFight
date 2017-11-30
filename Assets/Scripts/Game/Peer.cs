@@ -34,6 +34,7 @@ namespace Game
             transform.position = new Vector2(sync.PosX, sync.PosY);
             _team = sync.Team;
             Face(sync.Facing);
+            Carry(sync.Carrying);
         }
     }
 }

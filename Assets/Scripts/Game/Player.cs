@@ -1,4 +1,5 @@
 ﻿using Networking.Data;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 namespace Game
@@ -6,6 +7,8 @@ namespace Game
     public abstract class Player : MonoBehaviour
     {
         [SerializeField] public string UserID { get; private set; }
+        public int Health = 3;
+        public bool Carrying = false;
         public abstract string Team { get; }
 
         private Animator _animator;
@@ -44,6 +47,12 @@ namespace Game
         public void Move(float velocity)
         {
             _animator.SetFloat("Velocity", velocity);
+        }
+
+        public void Carry(bool carrying)
+        {
+            Carrying = carrying;
+            _animator.SetBool("Carrying", carrying);
         }
 
         public abstract void UpdateFromServer(PlayerSync sync);

@@ -52,8 +52,9 @@ namespace Game
 
             Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * _speed * Time.deltaTime;
             Move(move);
+            bool pickUp = Input.GetButtonDown("PickUp");
 
-            if (move.sqrMagnitude > 0f) updated = true;
+            if (move.sqrMagnitude > 0f || pickUp) updated = true;
 
             if (updated)
             {
@@ -65,7 +66,7 @@ namespace Game
                 Face(_facing);
                 Move(move.sqrMagnitude / Time.deltaTime);
 
-                UpdateServer(move, false);
+                UpdateServer(move, pickUp);
             }
             if (Input.GetButtonDown("Fire"))
             {
@@ -97,7 +98,7 @@ namespace Game
             Socket.Instance.SendPacket(snowball, Packets.SpawnSnowball);
         }
 
-        private void UpdateServer(Vector2 move, bool fired)
+        private void UpdateServer(Vector2 move, bool pickUp)
         {
             PlayerUpdate update = new PlayerUpdate
             {
@@ -105,8 +106,8 @@ namespace Game
                 UserID = ConnectionManager.Instance.UserID,
                 MoveX = move.x,
                 MoveY = move.y,
-                Fire = fired,
                 Facing = _facing,
+                PickUp = pickUp,
             };
             Socket.Instance.SendPacket(update, Packets.PlayerUpdate);
             _inputBuffer[InputBufferIndex++] = update;
@@ -116,6 +117,8 @@ namespace Game
         {
             // Sync team name
             TeamManager.Instance.SyncTeam(sync.Team);
+
+            Carry(sync.Carrying);
 
             // Apply sync
             transform.position = new Vector2(sync.PosX, sync.PosY);

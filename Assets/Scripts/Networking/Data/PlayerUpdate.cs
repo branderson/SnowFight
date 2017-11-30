@@ -10,7 +10,6 @@ namespace Networking.Data
         public float MoveX = 0f;
         public float MoveY = 0f;
         public float Facing = 0f;
-        public bool Fire = false;
         public bool PickUp = false;
     }
 }

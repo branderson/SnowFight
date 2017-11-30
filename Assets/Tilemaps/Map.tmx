@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="objects-spritesheet" tilewidth="32" tileheight="32" tilecount="100" columns="10">
+  <image source="../../../../Dropbox/Adina/SnowballFight/objects-spritesheet.png" width="320" height="320"/>
+  <tile id="4">
+   <properties>
+    <property name="Name" value="Snowdrift1"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Name" value="Snowdrift2"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Name" value="Snowdrift3"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Name" value="Snowdrift4"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Name" value="Snowdrift5"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Name" value="Tree"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Name" value="Snowman"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="Name" value="Snowman2"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Name" value="IceSlick"/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="Name" value="Fortress"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt18lOwzAQANAeKMullC8AjsAR+P9fIwUiWSNvcQOt1Pckq0qaRJa3mdlsAAAAAAAAAAAAAAAA4G89Tu1pas8n7gc/Xqb2OrW3U3eEb+9T+5ja58L37KvzYl/1+a91O7qvLs1a6/Zqhb6wbN1uK9e71XpEFMf9fuH7d2t1hKY4N3Hu+Fs3U7vN3I95wDb8Hogp49JxzOVccWx78gAxpa43t82NdRzbXB4wz9n1eBcvSm9uW8u5arE9nTP1eFttnEfjcml+1OPryMXvOOYPhXfT++rx48WYXav/0vNoaX1CuUbrqbHTeZq/kzuP5udKOTLH2f/+7sL1Qe48ivOp/ugX90tc0/O+SWNCPJdy+yB9fld5jjH7wv04N2LI8dI9EuuFuKbT8d4X7ue+ozYck8bndJ5ibpuOfy4+xDifO6vUim0j9UIuH+v5jlqxLbeOY8yPe6V1XaJWXC4991t5aylGXDf+Z0w8l+YYUqoxjf+6WvXCPA9x35iH9dRynnmc436I+6aVM9OvN+ep7QF503paOU9c67m1L28CAAAAAAAAAAAAAAAAAIDz9QUhQxcZ
+  </data>
+ </layer>
+</map>
