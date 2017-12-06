@@ -22,7 +22,7 @@ MonoBehaviour:
   MapTiledYToUnityZ: 0
   IgnoreLayerVisible: 0
   DockWindows: 1
-  WarnUnmatchedTiles: 1
+  WarnUnmatchedTiles: 0
   DefaultLayerPrefab: {fileID: 0}
   DefaultMapPrefab: {fileID: 0}
   ScaleProperty: Scale

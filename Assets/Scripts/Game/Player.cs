@@ -7,6 +7,7 @@ namespace Game
     public abstract class Player : MonoBehaviour
     {
         [SerializeField] public string UserID { get; private set; }
+        public Fortress Fortress;
         public int Health = 3;
         public bool Carrying = false;
         public abstract string Team { get; }
@@ -19,9 +20,10 @@ namespace Game
             _animator.speed = 1;
         }
 
-        public void Initialize(string userID)
+        public void Initialize(string userID, Fortress fortress)
         {
             UserID = userID;
+            Fortress = fortress;
         }
 
         public void Face(float direction)

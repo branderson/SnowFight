@@ -75,7 +75,7 @@ namespace Networking
         private static void HandlePlayerSync(PlayerSync sync)
         {
             if (sync == null) throw new WrongPacketTypeException();
-            Player player = World.Instance.GetPlayer(sync.UserID);
+            Player player = World.Instance.GetPlayer(sync.UserID, sync.FortressID);
             player.UpdateFromServer(sync);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Utility;
 using Assets.Utility.Behaviours;
 using Networking;
@@ -16,12 +17,16 @@ namespace Game
         // Dictionary<objectID, GameObject>
         private Dictionary<int, GameObject> _worldObjects;
 
+        private Dictionary<Fortress, Player> _fortresses;
+
         protected World() { }
 
         public void Awake()
         {
             _players = new Dictionary<string, Player>();
             _worldObjects = new Dictionary<int, GameObject>();
+            _fortresses = new Dictionary<Fortress, Player>();
+            LoadFortresses();
         }
 
         /// <summary>
@@ -30,10 +35,13 @@ namespace Game
         /// <param name="userID">
         /// ID to assign to instantiated player
         /// </param>
+        /// <param name="fortress">
+        /// Fortress to assign to player
+        /// </param>
         /// <returns>
         /// Instantiated player
         /// </returns>
-        public Player AddPlayer(string userID)
+        public Player AddPlayer(string userID, Fortress fortress)
         {
             GameObject playerObject = Instantiate(_playerPrefab, this.transform);
             Player player;
@@ -46,7 +54,7 @@ namespace Game
             {
                 player = playerObject.AddComponent<Peer>();
             }
-            player.Initialize(userID);
+            player.Initialize(userID, fortress);
 
             _players[userID] = player;
 
@@ -79,18 +87,23 @@ namespace Game
         /// <param name="userID">
         /// ID of player to get
         /// </param>
+        /// <param name="fortressID">
+        /// ID of fortress to assign to created player
+        /// </param>
         /// <returns>
         /// Player with the given ID
         /// </returns>
-        public Player GetPlayer(string userID)
+        public Player GetPlayer(string userID, int fortressID=-1)
         {
+            // TODO: Passing creation info into GetPlayer is bad
             Player player;
             if (_players.TryGetValue(userID, out player))
             {
                 return player;
             }
             // Create player if it doesn't exist
-            return AddPlayer(userID);
+            Fortress fortress = GetFortress(fortressID);
+            return AddPlayer(userID, fortress);
         }
 
         public MainPlayer GetMainPlayer()
@@ -101,6 +114,32 @@ namespace Game
                 return (MainPlayer)player;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Load fortresses into the world
+        /// </summary>
+        private void LoadFortresses()
+        {
+            foreach (Fortress fortress in FindObjectsOfType<Fortress>())
+            {
+                _fortresses[fortress] = null;
+            }
+        }
+
+        /// <summary>
+        /// Get the Fortress with the given ID
+        /// </summary>
+        /// <param name="fortressID">
+        /// ID of Fortress to get
+        /// </param>
+        /// <returns>
+        /// Fortress with the given ID
+        /// </returns>
+        public Fortress GetFortress(int fortressID)
+        {
+            Fortress fortress = _fortresses.Keys.FirstOrDefault(item => item.ID == fortressID);
+            return fortress;
         }
 
         /// <summary>
