@@ -75,7 +75,16 @@ namespace Networking
         private static void HandlePlayerSync(PlayerSync sync)
         {
             if (sync == null) throw new WrongPacketTypeException();
-            Player player = World.Instance.GetPlayer(sync.UserID, sync.FortressID);
+            // Remove inactive players
+            Fortress fortress = World.Instance.GetFortress(sync.FortressID);
+            fortress.SetVisible(true);
+            fortress.OwnerID = sync.UserID;
+            if (!sync.Active)
+            {
+                World.Instance.RemovePlayer(sync.UserID);
+                return;
+            }
+            Player player = World.Instance.GetOrAddPlayer(sync.UserID, sync.FortressID);
             player.UpdateFromServer(sync);
         }
 

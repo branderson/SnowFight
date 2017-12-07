@@ -10,7 +10,7 @@ namespace Game
     {
         private const int InputBufferSize = 50;
 
-        [SerializeField] private float _speed = 5f;
+        [SerializeField] private float _speed = 10f;
         [SerializeField] private float _fireRate = 3f;
 
         private float _facing = 0;
@@ -115,6 +115,8 @@ namespace Game
 
         public override void UpdateFromServer(PlayerSync sync)
         {
+            Spawn();
+
             // Sync team name
             TeamManager.Instance.SyncTeam(sync.Team);
 

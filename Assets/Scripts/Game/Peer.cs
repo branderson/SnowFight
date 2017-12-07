@@ -30,6 +30,12 @@ namespace Game
 
         public override void UpdateFromServer(PlayerSync sync)
         {
+            if (!sync.Active)
+            {
+                Despawn();
+                return;
+            }
+            Spawn();
             Move((transform.position - new Vector3(sync.PosX, sync.PosY)).sqrMagnitude / Time.deltaTime);
             transform.position = new Vector2(sync.PosX, sync.PosY);
             _team = sync.Team;

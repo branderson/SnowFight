@@ -6,7 +6,8 @@ namespace Game
 {
     public abstract class Player : MonoBehaviour
     {
-        [SerializeField] public string UserID { get; private set; }
+        public string UserID;
+        public bool Peer;
         public Fortress Fortress;
         public int Health = 3;
         public bool Carrying = false;
@@ -24,6 +25,17 @@ namespace Game
         {
             UserID = userID;
             Fortress = fortress;
+            Despawn();
+        }
+
+        public void Spawn()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Despawn()
+        {
+            gameObject.SetActive(false);
         }
 
         public void Face(float direction)

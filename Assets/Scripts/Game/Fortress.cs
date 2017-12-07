@@ -16,6 +16,11 @@ namespace Game
             _renderer = GetComponentInChildren<SpriteRenderer>();
         }
 
+        public void SetVisible(bool visible)
+        {
+            _renderer.enabled = visible;
+        }
+
         private void SetLevel(int level)
         {
             switch (level)

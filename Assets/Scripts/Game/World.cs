@@ -43,16 +43,25 @@ namespace Game
         /// </returns>
         public Player AddPlayer(string userID, Fortress fortress)
         {
+            // TODO: Handle adding active player as main player
+            if (GetPlayer(userID))
+            {
+                return null;
+            }
             GameObject playerObject = Instantiate(_playerPrefab, this.transform);
             Player player;
+            Debug.Log(userID);
+            Debug.Log(ConnectionManager.Instance.UserID);
             if (userID == ConnectionManager.Instance.UserID)
             {
                 player = playerObject.AddComponent<MainPlayer>();
+                player.Peer = false;
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Follow>().Target = playerObject.transform;
             }
             else
             {
                 player = playerObject.AddComponent<Peer>();
+                player.Peer = true;
             }
             player.Initialize(userID, fortress);
 
@@ -74,11 +83,21 @@ namespace Game
 
             if (userID == ConnectionManager.Instance.UserID)
             {
-                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<DampedFollow>().Follow = null;
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Follow>().Target = null;
             }
 
             _players.Remove(userID);
             Destroy(player.gameObject);
+        }
+
+        public Player GetPlayer(string userID)
+        {
+            Player player;
+            if (_players.TryGetValue(userID, out player))
+            {
+                return player;
+            }
+            return null;
         }
 
         /// <summary>
@@ -93,17 +112,20 @@ namespace Game
         /// <returns>
         /// Player with the given ID
         /// </returns>
-        public Player GetPlayer(string userID, int fortressID=-1)
+        public Player GetOrAddPlayer(string userID, int fortressID=-1)
         {
-            // TODO: Passing creation info into GetPlayer is bad
+            // TODO: Passing creation info into GetOrAddPlayer is bad
             Player player;
             if (_players.TryGetValue(userID, out player))
             {
                 return player;
             }
-            // Create player if it doesn't exist
-            Fortress fortress = GetFortress(fortressID);
-            return AddPlayer(userID, fortress);
+            else
+            {
+                // Create player if it doesn't exist
+                Fortress fortress = GetFortress(fortressID);
+                return AddPlayer(userID, fortress);
+            }
         }
 
         public MainPlayer GetMainPlayer()
