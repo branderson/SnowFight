@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Utility;
 using Assets.Utility.Behaviours;
 using Networking;
+using Networking.Data;
 using UnityEngine;
 
 namespace Game
@@ -21,6 +23,15 @@ namespace Game
 
         protected World() { }
 
+        public int PlayerScore
+        {
+            get
+            {
+                MainPlayer player = GetMainPlayer();
+                return player ? player.Score : 0;
+            }
+        }
+        
         public void Awake()
         {
             _players = new Dictionary<string, Player>();
@@ -131,11 +142,23 @@ namespace Game
         public MainPlayer GetMainPlayer()
         {
             Player player;
-            if (_players.TryGetValue(ConnectionManager.Instance.UserID, out player))
+            string id = ConnectionManager.Instance.UserID;
+            if (id == null) return null;
+            if (_players.TryGetValue(id, out player))
             {
                 return (MainPlayer)player;
             }
             return null;
+        }
+
+        public void SetSkin(string skin)
+        {
+            SetSkin set = new SetSkin
+            {
+                UserID = ConnectionManager.Instance.UserID,
+                Skin = (Skins)Enum.Parse(typeof(Skins), skin),
+            };
+            Socket.Instance.SendPacket(set, Packets.SetSkin);
         }
 
         /// <summary>

@@ -30,13 +30,15 @@ namespace Game
 
         public override void UpdateFromServer(PlayerSync sync)
         {
+            Score = sync.Score;
+            SetSkin(sync.Skin);
             if (!sync.Active)
             {
                 Despawn();
                 return;
             }
             Spawn();
-            Move((transform.position - new Vector3(sync.PosX, sync.PosY)).sqrMagnitude / Time.deltaTime);
+            SetVelocity((transform.position - new Vector3(sync.PosX, sync.PosY)).sqrMagnitude / Time.deltaTime);
             transform.position = new Vector2(sync.PosX, sync.PosY);
             _team = sync.Team;
             Face(sync.Facing);

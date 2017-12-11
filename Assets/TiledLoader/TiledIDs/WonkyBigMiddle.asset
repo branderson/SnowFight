@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1151050004, guid: b1883fb6fd5c54646acf894e0e997119, type: 3}
+  m_Name: WonkyBigMiddle
+  m_EditorClassIdentifier: 
+  Prefab: {fileID: 1365308763427536, guid: bec66bf0644a5ec4aaaed9c51131d7a7, type: 2}
+  TiledID: WonkyBigMiddle

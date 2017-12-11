@@ -68,20 +68,26 @@ namespace UI
             if (_updateCountdown <= 0)
             {
                 string newText = "";
+                object result = null;
                 switch (_producerType)
                 {
                     case ProducerType.Field:
-                        newText = _producerFieldInfo.GetValue(_producerComponent) as string;
+//                        newText = _producerFieldInfo.GetValue(_producerComponent) as string;
+                        result = _producerFieldInfo.GetValue(_producerComponent);
                         break;
                     case ProducerType.Property:
-                        newText = _producerPropertyInfo.GetValue(_producerComponent, new object[0]) as string;
+//                        newText = _producerPropertyInfo.GetValue(_producerComponent, new object[0]) as string;
+                        result = _producerPropertyInfo.GetValue(_producerComponent, new object[0]);
                         break;
                     case ProducerType.Method:
-                        newText = _producerMethodInfo.Invoke(_producerComponent, new object[0]) as string;
+//                        newText = _producerMethodInfo.Invoke(_producerComponent, new object[0]) as string;
+                        result = _producerMethodInfo.Invoke(_producerComponent, new object[0]);
                         break;
                 }
+                if (result != null) newText = result.ToString();
                 _text.text = newText;
-                _updateCountdown = 1f / _updateRate;
+                if (_updateRate > 0) _updateCountdown = 1f / _updateRate;
+                else _updateCountdown = 0;
             }
         }
     }

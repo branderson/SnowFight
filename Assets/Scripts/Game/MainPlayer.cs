@@ -48,24 +48,21 @@ namespace Game
             _fireCountdown -= Time.deltaTime;
             if (_fireCountdown < 0) _fireCountdown = 0;
 
-            bool updated = false;
-
             Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * _speed * Time.deltaTime;
             Move(move);
+            SetVelocity(move.sqrMagnitude / Time.deltaTime);
             bool pickUp = Input.GetButtonDown("PickUp");
 
-            if (move.sqrMagnitude > 0f || pickUp) updated = true;
-
-            if (updated)
+            if (move.sqrMagnitude > 0f)
             {
-//                Vector2 mousePosition = Camera.main.ViewportToWorldPoint(Input.mousePosition);
-//                float newFacing = Vector2.SignedAngle(transform.position, mousePosition);
                 float newFacing = Vector2.SignedAngle(Vector2.down, move);
 
                 _facing = newFacing;
                 Face(_facing);
-                Move(move.sqrMagnitude / Time.deltaTime);
+            }
 
+            if (move.sqrMagnitude > 0f || pickUp)
+            {
                 UpdateServer(move, pickUp);
             }
             if (Input.GetButtonDown("Fire"))
@@ -119,6 +116,9 @@ namespace Game
 
             // Sync team name
             TeamManager.Instance.SyncTeam(sync.Team);
+
+            SetSkin(sync.Skin);
+            Score = sync.Score;
 
             Carry(sync.Carrying);
 

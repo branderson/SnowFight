@@ -1,5 +1,6 @@
 ﻿using Assets.Utility;
 using Networking.Data;
+using UI;
 using UnityEngine;
 
 namespace Networking
@@ -24,6 +25,7 @@ namespace Networking
         {
             UserID = userID;
             Debug.Log("Event: Connected, UserID: " + userID);
+            UIManager.Instance.Close();
         }
     }
 }

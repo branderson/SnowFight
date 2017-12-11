@@ -1,5 +1,6 @@
 ﻿using Game;
 using Networking.Data;
+using UI;
 using UnityEngine;
 
 namespace Networking
@@ -39,6 +40,17 @@ namespace Networking
                     SnowballSync snowballSync = SerializationHandler.Deserialize<SnowballSync>(envelope.Packet);
                     HandleSnowballSync(snowballSync);
                     break;
+                case Packets.SnowPileSync:
+                    SnowPileSync snowPileSync = SerializationHandler.Deserialize<SnowPileSync>(envelope.Packet);
+                    HandleSnowPileSync(snowPileSync);
+                    break;
+                case Packets.LeaderboardData:
+                    LeaderboardDataEntry leaderboardDataResponse = SerializationHandler.Deserialize<LeaderboardDataEntry>(envelope.Packet);
+                    HandleLeaderboardDataEntry(leaderboardDataResponse);
+                    break;
+                case Packets.EndLeaderboardResponse:
+                    HandleEndLeaderboardResponse();
+                    break;
                 default:
                     break;
             }
@@ -53,6 +65,7 @@ namespace Networking
                 return;
             }
             ConnectionManager.Instance.LoggedIn(ack.UserID);
+            if (ack.FirstLogin) UIManager.Instance.OpenCustomize();
         }
 
         private static void HandleAckJoinTeam(AckJoinTeam ack)
@@ -78,7 +91,8 @@ namespace Networking
             // Remove inactive players
             Fortress fortress = World.Instance.GetFortress(sync.FortressID);
             fortress.SetVisible(true);
-            fortress.OwnerID = sync.UserID;
+            fortress.Initialize(sync.UserID, sync.Team);
+            fortress.SetToScore(sync.Score);
             if (!sync.Active)
             {
                 World.Instance.RemovePlayer(sync.UserID);
@@ -101,6 +115,25 @@ namespace Networking
             snowball.transform.position = new Vector2(sync.PosX, sync.PosY);
             Vector2 angle = Quaternion.AngleAxis(sync.Direction, Vector3.forward) * Vector3.down;
             snowball.GetComponent<Rigidbody2D>().velocity = angle * sync.Velocity;
+        }
+
+        private static void HandleSnowPileSync(SnowPileSync sync)
+        {
+            if (sync == null) throw new WrongPacketTypeException();
+            Debug.Log("Received snow pile sync");
+            GameObject snowPile = GameObject.Instantiate(Prefabs.Instance.SnowPilePrefab);
+            World.Instance.AddObject(snowPile, sync.ObjectID);
+            snowPile.transform.position = new Vector2(sync.PosX, sync.PosY);
+        }
+
+        private static void HandleLeaderboardDataEntry(LeaderboardDataEntry response)
+        {
+            UIManager.Instance.PopulateLeaderboards(response);
+        }
+
+        private static void HandleEndLeaderboardResponse()
+        {
+            UIManager.Instance.RefreshLeaderboards();
         }
     }
 }
