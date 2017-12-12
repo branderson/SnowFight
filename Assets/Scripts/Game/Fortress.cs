@@ -6,8 +6,13 @@ namespace Game
 {
     public class Fortress : MonoBehaviour
     {
-        private const int LevelTwoCutoff = 20;
-        private const int LevelThreeCutoff = 50;
+        public const int LevelTwoCutoff = 20;
+        public const int LevelThreeCutoff = 40;
+        public const int LevelFourCutoff = 60;
+        public const int LevelFiveCutoff = 80;
+        public const int LevelSixCutoff = 100;
+        public const int LevelSevenCutoff = 120;
+        public const int LevelEightCutoff = 140;
 
         public int ID;
         public string OwnerID;

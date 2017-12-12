@@ -5,8 +5,10 @@ namespace Game
 {
     public abstract class Player : MonoBehaviour
     {
+        public static Color FlashColor = Color.red;
         [SerializeField] private GameObject _mainPlayerMinimap;
         [SerializeField] private GameObject _enemyMinimap;
+        [SerializeField] private SpriteRenderer _renderer;
         public string UserID;
         public int Score = 0;
         public Skins Skin = Skins.WhiteBlue;
@@ -15,6 +17,7 @@ namespace Game
         public int Health = 3;
         public bool Carrying = false;
         public abstract string Team { get; }
+        public int HitFrames = 0;
 
         private PlayerAnimatorControllers _animatorControllers;
         private Animator _animator;
@@ -30,6 +33,7 @@ namespace Game
         {
             UserID = userID;
             Fortress = fortress;
+            _renderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
             _mainPlayerMinimap = transform.Find("MainPlayerMinimap").gameObject;
             _enemyMinimap = transform.Find("EnemyMinimap").gameObject;
             Despawn();
@@ -77,6 +81,11 @@ namespace Game
             }
         }
 
+        public void Hit()
+        {
+            HitFrames = 120;
+        }
+
         public void SetVelocity(float velocity)
         {
             _animator.SetFloat("Velocity", velocity);
@@ -108,7 +117,7 @@ namespace Game
                     _animator.runtimeAnimatorController = _animatorControllers.BlackBlue;
                     break;
                 case Skins.BlackOrange:
-                    _animator.runtimeAnimatorController = _animatorControllers.BrownOrange;
+                    _animator.runtimeAnimatorController = _animatorControllers.BlackOrange;
                     break;
                 case Skins.BlackPink:
                     _animator.runtimeAnimatorController = _animatorControllers.BlackPink;
@@ -124,6 +133,13 @@ namespace Game
                     break;
             }
             Skin = skin;
+        }
+
+        public void HitFlash()
+        {
+            if (HitFrames <= 0) return;
+            _renderer.color = HitFrames % 6 > 3 ? FlashColor : Color.white;
+            HitFrames--;
         }
 
         public abstract void UpdateFromServer(PlayerSync sync);

@@ -43,6 +43,7 @@ namespace Game
         private void Update()
         {
             if (!Socket.Instance.Connected) return;
+            HitFlash();
 
             // Fire rate limiting
             _fireCountdown -= Time.deltaTime;
@@ -116,13 +117,16 @@ namespace Game
 
             // Sync team name
             TeamManager.Instance.SyncTeam(sync.Team);
-
+            
             SetSkin(sync.Skin);
             Score = sync.Score;
 
             Carry(sync.Carrying);
 
             // Apply sync
+            if (sync.WasHit) Hit();
+            Health = sync.Health;
+
             transform.position = new Vector2(sync.PosX, sync.PosY);
             // Find earliest input after sync
             int earliestInputIndex = 0;

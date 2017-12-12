@@ -14,6 +14,11 @@ namespace Game
             get { return _team; }
         }
 
+        public void Update()
+        {
+            HitFlash();
+        }
+
         public void SetPosition(Vector2 position)
         {
             _posX = position.x;
@@ -37,6 +42,8 @@ namespace Game
                 Despawn();
                 return;
             }
+            if (sync.WasHit) Hit();
+            Health = sync.Health;
             Spawn();
             SetVelocity((transform.position - new Vector3(sync.PosX, sync.PosY)).sqrMagnitude / Time.deltaTime);
             transform.position = new Vector2(sync.PosX, sync.PosY);
