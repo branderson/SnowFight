@@ -1,4 +1,5 @@
-﻿using Assets.Utility;
+﻿using System.IO;
+using Assets.Utility;
 using Game;
 using Networking.Data;
 using UI;
@@ -25,8 +26,9 @@ namespace Networking
 
         protected Socket() { }
 
-        private void Start()
+        private void Awake()
         {
+            LoadConfig();
             InitializeSocket();
             Time.fixedDeltaTime = 1f / 30f;
             Connect();
@@ -43,6 +45,12 @@ namespace Networking
         {
             Disconnect();
             NetworkTransport.Shutdown();
+        }
+
+        private void LoadConfig()
+        {
+            string config = File.ReadAllText(Application.dataPath + "/ip.ini");
+            _serverIP = config;
         }
 
         private void InitializeSocket()
@@ -106,6 +114,7 @@ namespace Networking
         {
             byte error;
             if (Connected) return;
+            Debug.Log(string.Format("Connecting to IP address {0}", _serverIP));
             if (_useWebsocket)
             {
                 ClientID = NetworkTransport.Connect(_socketID, _serverIP, _serverPortWebsocket, 0, out error);

@@ -175,11 +175,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: -1
+  m_MinWidth: 200
   m_MinHeight: -1
   m_PreferredWidth: -1
   m_PreferredHeight: 40
-  m_FlexibleWidth: -1
+  m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
 --- !u!114 &114678221499289222
@@ -330,7 +330,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1087203872238614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 65, y: -19.99997, z: 0}
+  m_LocalPosition: {x: 50, y: -19.99997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224512577550017266}
@@ -338,6 +338,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 65, y: 0.000030517578}
+  m_AnchoredPosition: {x: 50, y: 0.000030517578}
   m_SizeDelta: {x: 120, y: 30}
   m_Pivot: {x: 0, y: 0.5}
