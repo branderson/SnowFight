@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 5fb1e9d1a69e6734b9ee987c72b5b9cf
-timeCreated: 1512945358
+guid: 77a753104da9bd64ea73aaa33d30033e
+timeCreated: 1513132235
 licenseType: Free
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
+  fontSize: 56
+  forceTextureCase: 1
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
@@ -15,7 +15,7 @@ TrueTypeFontImporter:
   - Munro
   fallbackFontReferences: []
   customCharacters: 
-  fontRenderingMode: 0
+  fontRenderingMode: 2
   ascentCalculationMode: 1
   userData: 
   assetBundleName: 

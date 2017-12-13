@@ -1,6 +1,7 @@
 ﻿using Assets.Utility;
 using Game;
 using Networking.Data;
+using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -20,18 +21,21 @@ namespace Networking
         private int _socketID;
         public bool Connected { get; private set; }
         public int ClientID { get; private set; }
+        private bool _verifiedConnection = false;
 
         protected Socket() { }
 
-        private void Start ()
+        private void Start()
         {
             InitializeSocket();
             Time.fixedDeltaTime = 1f / 30f;
             Connect();
+            UIManager.Instance.SetWarningText("Connecting to server", -1);
         }
 
         private void FixedUpdate ()
         {
+            if (!_verifiedConnection) SendPacket(new TestConnection(), Packets.TestConnection);
             PollSocket();
         }
 
@@ -91,7 +95,6 @@ namespace Networking
                     Debug.Log("Event: Disconnected");
                     break;
                 case NetworkEventType.DataEvent:
-//                    Debug.Log("Event: Received Data");
                     MessageReader.ReadMessage(buffer);
                     break;
                 case NetworkEventType.BroadcastEvent:
@@ -111,7 +114,7 @@ namespace Networking
             {
                 ClientID = NetworkTransport.Connect(_socketID, _serverIP, _serverPort, 0, out error);
             }
-            if ((NetworkError)error == NetworkError.Ok)
+            if ((NetworkError) error == NetworkError.Ok)
             {
                 Connected = true;
             }
@@ -126,6 +129,12 @@ namespace Networking
             {
                 Connected = false;
             }
+        }
+
+        public void VerifyConnection()
+        {
+            _verifiedConnection = true;
+            UIManager.Instance.SetWarningText("");
         }
 
         public void SendPacket<T>(T packet, Packets packetType) where T : class

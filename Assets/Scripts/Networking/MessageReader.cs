@@ -1,4 +1,5 @@
-﻿using Game;
+﻿using System;
+using Game;
 using Networking.Data;
 using UI;
 using UnityEngine;
@@ -51,6 +52,9 @@ namespace Networking
                 case Packets.EndLeaderboardResponse:
                     HandleEndLeaderboardResponse();
                     break;
+                case Packets.AckConnection:
+                    HandleAckConnection();
+                    break;
                 default:
                     break;
             }
@@ -62,10 +66,16 @@ namespace Networking
             if (!ack.Success)
             {
                 Debug.Log(string.Format("Unsuccessful login for UserID {0}", ack.UserID));
+                UIManager.Instance.SetWarningText(string.Format("User {0} already logged in", ack.UserID));
                 return;
             }
             ConnectionManager.Instance.LoggedIn(ack.UserID);
-            if (ack.FirstLogin) UIManager.Instance.OpenCustomize();
+            if (ack.FirstLogin)
+            {
+                UIManager.Instance.OpenCustomize();
+                UIManager.Instance.OpenHowToPlay();
+            }
+            UIManager.Instance.SetWarningText("", -1);
         }
 
         private static void HandleAckJoinTeam(AckJoinTeam ack)
@@ -134,6 +144,11 @@ namespace Networking
         private static void HandleEndLeaderboardResponse()
         {
             UIManager.Instance.RefreshLeaderboards();
+        }
+
+        private static void HandleAckConnection()
+        {
+            Socket.Instance.VerifyConnection();
         }
     }
 }
