@@ -19,7 +19,7 @@ namespace Game
         public abstract string Team { get; }
         public int HitFrames = 0;
 
-        private PlayerAnimatorControllers _animatorControllers;
+        protected PlayerAnimatorControllers _animatorControllers;
         private Animator _animator;
 
         private void Awake()
@@ -27,6 +27,7 @@ namespace Game
             _animator = GetComponent<Animator>();
             _animatorControllers = GetComponent<PlayerAnimatorControllers>();
             _animator.speed = 1;
+            _animatorControllers.NameUI.SetActive(false);
         }
 
         public void Initialize(string userID, Fortress fortress)

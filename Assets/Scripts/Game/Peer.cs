@@ -1,5 +1,6 @@
 ﻿using Networking.Data;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -8,10 +9,17 @@ namespace Game
         [SerializeField] private float _posX;
         [SerializeField] private float _posY;
         private string _team = "";
+        private Text _nameText;
 
         public override string Team
         {
             get { return _team; }
+        }
+
+        public void Start()
+        {
+            _animatorControllers.NameUI.SetActive(true);
+            _nameText = _animatorControllers.NameUI.GetComponentInChildren<Text>();
         }
 
         public void Update()
@@ -48,6 +56,8 @@ namespace Game
             SetVelocity((transform.position - new Vector3(sync.PosX, sync.PosY)).sqrMagnitude / Time.deltaTime);
             transform.position = new Vector2(sync.PosX, sync.PosY);
             _team = sync.Team;
+            _nameText.text = UserID;
+            if (!string.IsNullOrEmpty(_team)) _nameText.text += "\n" + _team;
             Face(sync.Facing);
             Carry(sync.Carrying);
         }

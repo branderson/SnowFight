@@ -13,5 +13,6 @@ namespace Game
         [SerializeField] public RuntimeAnimatorController BrownBlue;
         [SerializeField] public RuntimeAnimatorController BrownOrange;
         [SerializeField] public RuntimeAnimatorController BrownPink;
+        [SerializeField] public GameObject NameUI;
     }
 }
